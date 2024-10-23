@@ -28,15 +28,16 @@ app.engine('ejs',ejsMate)
 app.use(express.static(path.join(__dirname,"/public")));
 
 
-app.get("/",(req,res)=>{
-    req.render("index.ejs")
-});
+app.get("/", (req, res) => {
+    res.send("Hi, I am root");
+  });
 
 //Index route
 app.get("/listings", async(req,res) =>{
   const allListing = await Listing.find({})
   res.render("listings/index.ejs",{allListing});
 });
+
 
 //new route
 app.get("/listings/new",(req,res)=>{
@@ -83,4 +84,4 @@ app.listen (3000,()=>{
     console.log("server is running on port 3000");
 });
 
-
+ 
