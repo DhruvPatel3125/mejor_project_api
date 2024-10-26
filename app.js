@@ -7,6 +7,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema}  = require("./schema.js");
+
 
 const mongo_url = "mongodb://127.0.0.1:27017/dhruv";
 
@@ -61,8 +63,10 @@ app.get(
 app.post(
   "/listings",
   wrapAsync(async (req, res, next) => {
+ let result= listingSchema.validate(req.body)
+ console.log(result)
     const newListing = new Listing(req.body.listing);
-    await newListing.save();
+       await newListing.save();
     res.redirect("/listings");
   })
 );
