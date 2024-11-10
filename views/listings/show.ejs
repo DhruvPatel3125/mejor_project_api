@@ -33,23 +33,25 @@
                 </form>
             </div>
         </div>
-
         <div class="col-8 offset-3 mb-3">
             <hr>
             <h4>Leave a Review</h4>
             <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
                     <label for="rating" class="form-label">Rating</label>
-                    <input type="range" name="review[rating]" id="rating" min="1" max="5" class="form-range">
+                    <input type="range" name="rating" id="rating" min="1" max="5" class="form-range">
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="comment" class="form-label">Comments</label>
-                    <textarea name="review[comment]" id="comment" class="form-control" cols="30" rows="5"
-                        required></textarea>
+                    <textarea name="text" id="comment" class="form-control" cols="30" rows="5" required></textarea>
                     <div class="invalid-feedback">Please add some comments for review</div>
                 </div>
                 <button class="btn btn-outline-dark" type="submit">submit</button>
             </form>
+        </div>
+        
+
+
 
             <hr>
             <p> <b> All Reviews </b> </p>
