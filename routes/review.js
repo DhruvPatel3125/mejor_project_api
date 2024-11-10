@@ -8,6 +8,7 @@ const Listing = require("../models/listing.js");
 
 // Middleware to validate review input
 const validateReview = (req, res, next) => {
+    console.log("Request Body:", req.body); // Debugging line
     const { error } = reviewSchema.validate(req.body);
     if (error) {
         const errMsg = error.details.map((el) => el.message).join(",");
@@ -18,17 +19,21 @@ const validateReview = (req, res, next) => {
 
 // POST route for adding a new review
 router.post("/", validateReview, wrapAsync(async (req, res) => {
-  const listing = await Listing.findById(req.params.id);
-  const newReview = new Review({
-      rating: req.body.review.rating,
-      text: req.body.review.comment
-  });
+    const listing = await Listing.findById(req.params.id);
 
-  listing.reviews.push(newReview);
-  await newReview.save();
-  await listing.save();
+    // Check if both rating and comment are available in req.body.review
+    console.log(req.body); // Debugging line: Log the body to check the structure
 
-  res.redirect(`/listings/${listing._id}`);
+    const newReview = new Review({
+        rating: req.body.review.rating,
+        text: req.body.review.comment // Ensure you're accessing the comment correctly
+    });
+
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
 }));
 
 
