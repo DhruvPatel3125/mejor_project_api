@@ -6,6 +6,8 @@ const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
 const {isLoggedin} = require("../middleware.js")
 
+const { index } = require("../controllers/listings.js");
+
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   if (error) {
@@ -19,10 +21,7 @@ const validateListing = (req, res, next) => {
 //Index route
 router.get(
   "/",
-  wrapAsync(async (req, res) => {
-    const allListing = await Listing.find({});
-    res.render("listings/index.ejs", { allListing });
-  })
+  wrapAsync(index)
 );
 
 //new route
