@@ -49,9 +49,26 @@ const sessionOptions = {
   },
 };
 
-app.get("/", (req, res) => {
-  res.send("Hi, I am root");
+// Home Route
+app.get('/', (req, res) => {
+    const homeData = {
+        title: "Welcome to Mejor Project API",
+        description: "Easily manage your data with a secure, user-friendly API.",
+        features: [
+            { icon: "fas fa-database", title: "Data Management", text: "Effortlessly store, retrieve, update, and delete data from your database." },
+            { icon: "fas fa-lock", title: "Secure API", text: "Built with security in mind to keep your data protected." },
+            { icon: "fas fa-code", title: "Developer-Friendly", text: "Clear documentation and examples for a smooth experience." }
+        ],
+        steps: [
+            "Clone the repository with git clone https://github.com/DhruvPatel3125/mejor_project_api.git",
+            "Install dependencies with npm install",
+            "Start the server with npm start",
+            "Access the API documentation to learn how to use the API."
+        ]
+    };
+    res.render('home', { homeData });
 });
+
 
 app.use (session(sessionOptions));
 app.use(flash());
