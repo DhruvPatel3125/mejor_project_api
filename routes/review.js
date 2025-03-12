@@ -5,6 +5,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema1.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
+const { isLoggedin } = require("../middleware.js");
 
 // Middleware to validate review input
 const validateReview = (req, res, next) => {
@@ -18,7 +19,7 @@ const validateReview = (req, res, next) => {
 };
 
 // POST route for adding a new review
-router.post("/", validateReview, wrapAsync(async (req, res) => {
+router.post("/", isLoggedin, validateReview, wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
 
     // Check if both rating and comment are available in req.body.review
@@ -26,7 +27,8 @@ router.post("/", validateReview, wrapAsync(async (req, res) => {
 
     const newReview = new Review({
         rating: req.body.review.rating,
-        text: req.body.review.comment // Ensure you're accessing the comment correctly
+        text: req.body.review.comment,
+        author: req.user._id
     });
 
     listing.reviews.push(newReview);
@@ -40,7 +42,7 @@ router.post("/", validateReview, wrapAsync(async (req, res) => {
 
 
 // DELETE route for removing a review
-router.delete("/:reviewId", wrapAsync(async (req, res) => {
+router.delete("/:reviewId", isLoggedin, wrapAsync(async (req, res) => {
     const { id, reviewId } = req.params;
 
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
