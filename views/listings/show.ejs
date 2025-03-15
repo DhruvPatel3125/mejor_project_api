@@ -92,7 +92,13 @@
             <% for (let review of listing.reviews) { %>
                 <div class="card col-5 ms-3 mb-3">
                     <div class="card-body">
-                        <h5 class="card-title"><%= review.author ? review.author.username : "Anonymous" %></h5>
+                        <h5 class="card-title">
+                            <% if (review.author && review.author.username) { %>
+                                <%= review.author.username %>
+                            <% } else { %>
+                                Anonymous
+                            <% } %>
+                        </h5>
                         <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
                         <p class="card-text"><%= review.comment %></p>
                     </div>

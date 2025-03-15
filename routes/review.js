@@ -21,22 +21,18 @@ const validateReview = (req, res, next) => {
 // POST route for adding a new review
 router.post("/", isLoggedin, validateReview, wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
-
-    // Check if both rating and comment are available in req.body.review
-    console.log(req.body); // Debugging line: Log the body to check the structure
-
+    
     const newReview = new Review({
         rating: req.body.review.rating,
-        text: req.body.review.comment,
-        author: req.user._id
+        comment: req.body.review.comment,
+        author: req.user._id // Always set the author
     });
-
+    
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
-    req.flash("success","New Review Added");
-
-
+    req.flash("success", "New Review Added");
+    
     res.redirect(`/listings/${listing._id}`);
 }));
 

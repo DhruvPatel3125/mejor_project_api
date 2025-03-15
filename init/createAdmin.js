@@ -8,9 +8,9 @@ async function createAdmin() {
         await mongoose.connect(mongo_url);
         console.log("Connected to DB");
 
-        const admin = new User({ username: "dhv", email: "admin68@gmail.com", isAdmin: true });
-        await User.register(admin, "12345");
-        console.log("Admin user created with username 'dhv' and email 'admin68@gmail.com'");
+        const admin = new User({ username: "janu", email: "janu@me.com", isAdmin: true });
+        await User.register(admin, "janu");
+        console.log("Admin user created with username 'janu' and email 'janu@me.com'");
     } catch (err) {
         console.log("Error creating admin user:", err);
     } finally {
